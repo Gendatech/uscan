@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "110436565956",
+    "project_id": "genda-uscan",
+    "storage_bucket": "genda-uscan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110436565956:android:508ad19b7af7f74f275a91",
+        "android_client_info": {
+          "package_name": "genda.uscan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "110436565956-cb8fsmes0kucndoma6he9hvpl7aetfp0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "genda.uscan",
+            "certificate_hash": "8c7257fc56e3f1710827259133e8faa44cffa410"
+          }
+        },
+        {
+          "client_id": "110436565956-q3p5tl8ngfofu6c89ic98c5g2qtg6vf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBis1MlBO4_HwS6VQDglioXIwajkyC5DCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "110436565956-q3p5tl8ngfofu6c89ic98c5g2qtg6vf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
