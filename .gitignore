@@ -83,3 +83,9 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+.idea/**
+
+# ignore this annoying file.
+**/.DS_Store
+
