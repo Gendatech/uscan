@@ -12,13 +12,13 @@
         tools:layout="@layout/fragment_uscan">
 
         <action
-            android:id="@+id/action_FirstFragment_to_PermissionFragment"
+            android:id="@+id/action_UscanFragment_to_PermissionFragment"
             app:destination="@id/PermissionFragment" />
     </fragment>
     <fragment
         android:id="@+id/PermissionFragment"
         android:name="genda.uscan.utils.PermissionDialog"
         android:label="@string/permission_fragment"
-        tools:layout="@layout/dialog_permission">
+        tools:layout="@layout/fragment_permission">
     </fragment>
 </navigation>

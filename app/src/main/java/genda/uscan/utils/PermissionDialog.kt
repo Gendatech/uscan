@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.PermissionChecker
 import androidx.fragment.app.Fragment
-import genda.uscan.databinding.DialogPermissionBinding
+import genda.uscan.databinding.FragmentPermissionBinding
 
 /**
  * The genda location permission request dialog view.
@@ -22,7 +22,7 @@ class PermissionDialog: Fragment() {
 
     // region Data Members
 
-    private var _binding: DialogPermissionBinding? = null
+    private var _binding: FragmentPermissionBinding? = null
 
     // The foreground location permission listener.
     private val foregroundLocationRequestLauncher =
@@ -135,7 +135,7 @@ class PermissionDialog: Fragment() {
                               savedInstanceState: Bundle?): View {
 
         // Inflate the layout for this fragment.
-        _binding = DialogPermissionBinding.inflate(inflater)
+        _binding = FragmentPermissionBinding.inflate(inflater)
 
         return binding.root
     }
@@ -144,13 +144,6 @@ class PermissionDialog: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize fragment views.
-        setupViews()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        // Initialize fragment views, we need on resume for back from app settings situation.
         setupViews()
     }
 

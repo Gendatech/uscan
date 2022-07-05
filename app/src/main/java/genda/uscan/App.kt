@@ -1,8 +1,12 @@
 package genda.uscan
 
+import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.PermissionChecker
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import genda.uscan.service.UscanService
@@ -50,5 +54,27 @@ class App : Application(), DefaultLifecycleObserver {
     private fun startUscanService() {
         startForegroundService(Intent(this, UscanService().javaClass))
         Logger.d("Uscan service start from APP")
+    }
+
+    fun isAllNeededPermissionsGranted(): Boolean {
+
+        return (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
+                checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) ||
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.S &&
+                checkPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) ||
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                checkPermission(Manifest.permission.BLUETOOTH_SCAN))
+    }
+
+    fun checkPermission(permissionName: String): Boolean {
+
+        val isPermissionGranted =
+            PermissionChecker.checkCallingOrSelfPermission(
+                applicationContext,
+                permissionName
+            ) == PackageManager.PERMISSION_GRANTED
+
+        Logger.d("Check if the permission $permissionName granted = $isPermissionGranted")
+        return isPermissionGranted
     }
 }

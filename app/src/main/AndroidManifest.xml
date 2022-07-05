@@ -6,6 +6,9 @@
 <!--    Service permission-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN" />
+
     <application
         android:name=".App"
         android:allowBackup="true"

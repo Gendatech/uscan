@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
-import android.util.Log
 import genda.uscan.utils.GendaNotification
 import genda.uscan.utils.Utils
 
