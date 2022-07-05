@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +10,79 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="bleBackgoundUnknown">#FFF8E1</color>
+    <color name="bleBackgoundKnown">#F1F8E9</color>
+    <color name="bleBackgoundLeader">#C6FF00</color>
+
+    <color name="colorWarning">#D81B60</color>
+    <color name="colorError">#B00020</color>
+
+    <color name="colorAccent">@color/primaryDarkColor</color>
+    <color name="primaryLightColor">#4a556d</color>
+    <color name="primaryDarkColor">#f17803</color>
+    <color name="secondaryColor">#757575</color>
+    <color name="secondaryLightColor">#a4a4a4</color>
+    <color name="secondaryDarkColor">#494949</color>
+    <color name="primaryTextColor">#000000</color>
+
+    <color name="lightBackground">#FFFDE7</color>
+    <color name="secondaryTextColor">#ffffff</color>
+    <color name="diciplineIconAccent">#FFBE6B</color>
+
+    <color name="noitficationColor">#FFB83D</color>
+    <color name="slateGrey">#575b62</color>
+    <color name="paleGrey">#dde0e8</color>
+    <color name="slate">#3e4759</color>
+    <color name="paleGreyTwo">#e8e9ee</color>
+    <color name="paleGreyThree">#f7f9fc</color>
+    <color name="menugray">#717e9b</color>
+    <color name="backgoundgray">#f7f9fc</color>
+    <color name="scrollgray">#d3d4d5</color>
+
+
+
+    <!--DO this-->
+    <color name="black_23">#39000000</color>
+    <color name="orange">#f17803</color>
+    <color name="slate_grey">#575b62</color>
+    <color name="pale_grey">#dde0e8</color>
+    <color name="pale_grey_two">#e8e9ee</color>
+    <color name="pale_grey_three">#f7f9fc</color>
+    <color name="pale_grey_80">#cceef1f6</color>
+    <color name="battleship_grey">#697180</color>
+    <color name="blueishgrayish">#ced4da</color>
+
+    <color name="dusty_orange">#f18b39</color>
+    <color name="grey_blue">#69798d</color>
+    <color name="bluegrey">#75acd1</color>
+    <color name="hoist_button_not_checked">#CED4DE</color>
+    <color name="hoist_resume_button">#88d078</color>
+
+    <color name="bluegrey_disabled">#4e75acd1</color>
+    <color name="greyblue">#6a9dc0</color>
+    <color name="light_periwinkle_two">#d9dce4</color>
+    <color name="whitywhite">#99ffffff</color>
+
+    <color name="gray_progressbar">#b0b0b0</color>
+    <color name="darkblue_2">#57637a</color>
+    <color name="darkblue_3">#6d7890</color>
+    <color name="graynight">#71757c</color>
+    <color name="darkBlue_4">#364259</color>
+    <color name="clearBlue">#dee9ff</color>
+    <color name="cool_blue">#4793c7</color>
+    <color name="darkblue_1">#505a72</color>
+    <color name="navbargray">#66728d</color>
+    <color name="mango">#ff972f</color>
+    <color name="light_blue_400">#FF29B6F6</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="gray_400">#FFBDBDBD</color>
+    <color name="gray_600">#FF757575</color>
+    <color name="light_grey_blue">#a6adbb</color>
+    <color name="trade_gray_dark">#575b62</color>
+    <color name="orange_yellow">#ffab05</color>
+
+
+    <!--    For the out line edit text (︶︹︺) -->
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/cool_blue</color>
 </resources>

@@ -1,3 +1,39 @@
 <resources>
-    <dimen name="fab_margin">48dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="sketch_vector_width">576</dimen>
+    <dimen name="sketch_vector_height">240</dimen>
+
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="report_text_size">18sp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="nav_header_logo_margin">29dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+
+    <dimen name="key_padding">8dp</dimen>
+    <dimen name="key_stroke_width">4dp</dimen>
+    <dimen name="key_text_size">12sp</dimen>
+    <dimen name="indicator_radius">16dp</dimen>
+
+    <dimen name="bottomsheet_radius">8dp</dimen>
+    <dimen name="elevator_card_in_list_height">120dp</dimen>
+    <dimen name="post_card_in_list_height">120dp</dimen>
+    <dimen name="nav_header_logo_size">80dp</dimen>
+    <dimen name="beacon_verify_column_width">160dp</dimen>
+    <dimen name="checkin_btn_elevation">24dp</dimen>
+    <dimen name="bigbutton_halfmargin">8dp</dimen>
+
+    <dimen name="safety_sticker_size_plus_padding">144dp</dimen>
+    <dimen name="safety_sticker_padding">12dp</dimen>
+    <dimen name="safety_sticker_size">120dp</dimen>
+    <dimen name="safety_sticker_10percent">12dp</dimen>
+    <dimen name="safety_sticker_20percent">24dp</dimen>
+    <dimen name="safety_sticker_30percent">36dp</dimen>
+
+    <dimen name="certificate_column_width">160dp</dimen>
 </resources>
