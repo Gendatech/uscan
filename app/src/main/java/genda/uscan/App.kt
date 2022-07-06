@@ -9,7 +9,7 @@ import android.os.Build
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import genda.uscan.service.UscanService
+import genda.uscan.services.UscanService
 import genda.uscan.utils.Logger
 
 class App : Application(), DefaultLifecycleObserver {
@@ -51,7 +51,8 @@ class App : Application(), DefaultLifecycleObserver {
         super.onStop(owner)
     }
 
-    private fun startUscanService() {
+     fun startUscanService() {
+        Logger.d("Try Uscan service start from APP")
         startForegroundService(Intent(this, UscanService().javaClass))
         Logger.d("Uscan service start from APP")
     }

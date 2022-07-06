@@ -3,11 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="genda.uscan">
 
-<!--    Service permission-->
+    <!--Service permission-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <!--Android 13+-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-permission
-        android:name="android.permission.BLUETOOTH_SCAN" />
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <application
         android:name=".App"
@@ -37,7 +45,15 @@
             android:value="true" />
 
         <!-- On Going Service-->
-        <service android:name=".service.UscanService"/>
+        <service android:name=".services.UscanService"/>
+
+        <service
+            android:name=".services.GendaMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <!-- Boot Complete Broadcast-->
         <receiver android:name=".broadcasts.BootCompleteReceiver" android:exported="true">

@@ -7,14 +7,14 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
             android:theme="@style/Theme.Uscan.AppBarOverlay">
 
             <androidx.appcompat.widget.Toolbar
@@ -39,5 +39,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_graph" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

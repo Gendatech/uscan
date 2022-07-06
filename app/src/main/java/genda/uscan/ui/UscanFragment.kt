@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import genda.uscan.App
 import genda.uscan.R
 import genda.uscan.databinding.FragmentUscanBinding
 import genda.uscan.utils.Logger
 
-class UscanFragment: Fragment() {
+class UscanFragment : Fragment() {
 
     // region Data Members
 
@@ -22,8 +21,10 @@ class UscanFragment: Fragment() {
 
     // region Life Cycle
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         // Inflate the layout for this fragment.
         _binding = FragmentUscanBinding.inflate(inflater)
@@ -50,12 +51,16 @@ class UscanFragment: Fragment() {
     /**
      * Initialize the fragment views.
      */
-    private fun setupViews(){
+    private fun setupViews() {
 
-        if (!App.get().isAllNeededPermissionsGranted()){
+        if (!App.get().isAllNeededPermissionsGranted()) {
 
             Logger.d("why this not working")
             findNavController().navigate(R.id.PermissionFragment)
+        }
+
+        _binding?.buttonFirst?.setOnClickListener { view ->
+            App.get().startUscanService()
         }
 
     }

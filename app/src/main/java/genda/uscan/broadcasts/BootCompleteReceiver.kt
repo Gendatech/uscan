@@ -3,7 +3,7 @@ package genda.uscan.broadcasts
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import genda.uscan.service.UscanService
+import genda.uscan.services.UscanService
 
 class BootCompleteReceiver : BroadcastReceiver() {
 

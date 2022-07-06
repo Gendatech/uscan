@@ -1,9 +1,12 @@
 package genda.uscan.ui
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -13,6 +16,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import genda.uscan.utils.Logger
+import genda.uscan.utils.PersistentData
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        nearbyDevicesRequestLauncher.launch(arrayOf(Manifest.permission.BLUETOOTH_CONNECT))
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -30,25 +37,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        val db = Firebase.firestore
-
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
-
-// Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d("uscan", "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("uscan", "Error adding document", e)
-            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -72,5 +60,38 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+
+
+    // The nearby devices permission listener.
+    private val nearbyDevicesRequestLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+
+            // Check if permission granted.
+            if (permissions.entries.all { it.value }) {
+
+                // Mark all permissions as granted.
+                Logger.d("Nearby devices permission granted")
+            } else {
+
+                // Check if is the first time the user denied the permission request.
+                if (shouldShowRequestPermissionRationale(Manifest.permission.BLUETOOTH_SCAN)) {
+
+                    // Save permission status because this is the only way to know why we don't need to show rationale
+                    PersistentData.setPermissionBlockedOnce(true)
+                    Logger.d("Nearby devices permission denied, we have one more try")
+                } else {
+
+                    // Check if the permission blocked already once and that's the reason we don't need to show rationale.
+                    if (PersistentData.getPermissionBlockedOnce()){
+
+                        Logger.d("Nearby devices permission denied, the permission request blocked")
+                        PersistentData.setPermissionsIsBlocked(true)
+                    } else {
+
+                        Logger.d("Nearby devices - User not choose any permission level, like new")
+                    }
+                }
+            }
+        }
 
 }
