@@ -19,6 +19,6 @@
         android:id="@+id/PermissionFragment"
         android:name="genda.uscan.utils.PermissionDialog"
         android:label="@string/permission_fragment"
-        tools:layout="@layout/fragment_permission">
+        tools:layout="@layout/dialog_permission_location">
     </fragment>
 </navigation>

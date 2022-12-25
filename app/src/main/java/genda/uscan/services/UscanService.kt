@@ -10,8 +10,10 @@ import android.os.Looper
 import android.text.format.DateFormat
 import android.util.Log
 import androidx.lifecycle.LifecycleService
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import genda.uscan.scanner.Scanner
 import genda.uscan.scanner.UscanResult
 import genda.uscan.utils.GendaNotification
@@ -71,6 +73,17 @@ class UscanService: LifecycleService(){
             foregroundNotification?.showServiceNotification(this)
 
             startUpdateNotification()
+
+            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let { Logger.e("Fetching FCM registration token failed", it) }
+                    return@OnCompleteListener
+                }
+
+                // Get new FCM registration token
+                Logger.d("Firebase FCM token - ${task.result}")
+            })
+
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -207,7 +220,8 @@ class UscanService: LifecycleService(){
         val uscanResult = UscanResult(
             lastResult.device.address,
             lastResult.device.name,
-            lastResult.rssi
+            lastResult.rssi,
+            lastResult.txPower
         )
 
         val db = Firebase.firestore

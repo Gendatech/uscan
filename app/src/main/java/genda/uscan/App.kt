@@ -9,8 +9,13 @@ import android.os.Build
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.work.*
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.functions.FirebaseFunctions
 import genda.uscan.services.UscanService
 import genda.uscan.utils.Logger
+import genda.uscan.worker.UscanWorker
+import java.util.concurrent.TimeUnit
 
 class App : Application(), DefaultLifecycleObserver {
 
@@ -34,7 +39,7 @@ class App : Application(), DefaultLifecycleObserver {
         super<Application>.onCreate()
         instance = this
 
-        startUscanService()
+//        startUscanService()
     }
 
     /**
@@ -77,5 +82,27 @@ class App : Application(), DefaultLifecycleObserver {
 
         Logger.d("Check if the permission $permissionName granted = $isPermissionGranted")
         return isPermissionGranted
+    }
+
+    fun createWorkManager(){
+        val request = PeriodicWorkRequestBuilder<UscanWorker>(
+            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+            TimeUnit.MILLISECONDS,
+            PeriodicWorkRequest.MIN_PERIODIC_FLEX_MILLIS,
+            TimeUnit.MILLISECONDS)
+
+            .addTag("TRACKER_WORKER")
+//            .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
+            .build()
+
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            "TRACKER_WORKER",
+            ExistingPeriodicWorkPolicy.KEEP,
+            request)
+    }
+
+    fun triggerFCM(){
+
+
     }
 }

@@ -60,8 +60,13 @@ class UscanFragment : Fragment() {
         }
 
         _binding?.buttonFirst?.setOnClickListener { view ->
-            App.get().startUscanService()
+//            App.get().startUscanService()
+            App.get().createWorkManager()
+
+            _binding?.buttonFirst?.alpha = 0.5f
+
         }
+
 
     }
 
