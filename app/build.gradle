@@ -67,4 +67,6 @@ dependencies {
 
     implementation 'no.nordicsemi.android.support.v18:scanner:1.6.0'
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    implementation 'com.kkmcn.kbeaconlib:kbeaconlib:1.0.9'
 }

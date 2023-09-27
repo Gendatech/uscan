@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="kbeacon"
+            type="com.kkmcn.kbeaconlib.KBeacon" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/kbeacon_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@{kbeacon.name}"
+            android:gravity="start"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/kbeacon_mac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@{kbeacon.mac}"
+            android:gravity="start"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/kbeacon_name"
+            />
+
+        <TextView
+            android:id="@+id/kbeacon_rssi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@{kbeacon.rssi.toString()}"
+            android:gravity="start"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/kbeacon_mac"
+            />
+
+        <TextView
+            android:id="@+id/kbeacon_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@{kbeacon.batteryPercent.toString()}"
+            android:gravity="start"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/kbeacon_rssi"
+            />
+
+        <TextView
+            android:id="@+id/kbeacon_min_tx_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@{kbeacon.minTxPower.toString()}"
+            android:gravity="start"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/kbeacon_battery" />
+
+        <TextView
+            android:id="@+id/kbeacon_max_tx_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@{kbeacon.maxTxPower.toString()}"
+            android:gravity="start"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/kbeacon_min_tx_power" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
