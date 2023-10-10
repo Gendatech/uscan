@@ -32,9 +32,6 @@ class UscanFragment : Fragment() {
     private var mBeaconsMgr: KBeaconsMgr? = null
     var mScanFailedContinueNum = 0
     var mBeaconsDictory: MutableMap<String, KBeacon> = HashMap()
-
-
-
     val beaconMgrDeletate: KBeaconMgrDelegate = object : KBeaconMgrDelegate {
         //get advertisement packet during scanning callback
         @SuppressLint("RestrictedApi")
@@ -76,9 +73,9 @@ class UscanFragment : Fragment() {
 //                    _binding?.kbeaconList?.adapter?.notifyItemRangeChanged(0, mBeaconsDictory.size)
                 }
             }
-            if (mBeaconsDictory.isNotEmpty()) {
-                var mBeaconsArray:Array<KBeacon> = mBeaconsDictory.values.toTypedArray()
-            }
+//            if (mBeaconsDictory.isNotEmpty()) {
+//                var mBeaconsArray:Array<KBeacon> = mBeaconsDictory.values.toTypedArray()
+//            }
         }
 
         @SuppressLint("RestrictedApi")
@@ -96,10 +93,6 @@ class UscanFragment : Fragment() {
             mScanFailedContinueNum++
         }
     }
-
-
-
-
 
     // endregion
 
@@ -168,9 +161,13 @@ class UscanFragment : Fragment() {
             }
         }
 
+        _binding?.buttonTwo?.setOnClickListener {
+            _binding?.buttonFirst?.alpha = 1.0f
+            mBeaconsMgr?.stopScanning()
+        }
+
         mBeaconsMgr = KBeaconsMgr.sharedBeaconManager(requireContext())
         if (mBeaconsMgr == null) {
-
             Toast .makeText(requireContext(), "Uscan tests Bluetooth not support", Toast.LENGTH_LONG)
                 .show()
         }

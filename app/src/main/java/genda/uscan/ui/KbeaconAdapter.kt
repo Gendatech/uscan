@@ -104,6 +104,10 @@ class KbeaconAdapter(
                         )
                             .show()
                     } else {
+                        Log.e(
+                            PackageManagerCompat.LOG_TAG,
+                            "Uscan Adapter tests device has disconnected:$nReason"
+                        )
                         Toast.makeText(
                             kbeaconBinding.root.context,
                             "Uscan Adapter tests connection other error, reason:$nReason",
@@ -130,7 +134,6 @@ class KbeaconAdapter(
 
                 kbeacon.connect("0000000000000000", 60 * 1000, connectionDelegate)
             }
-
         }
 
         @SuppressLint("RestrictedApi")

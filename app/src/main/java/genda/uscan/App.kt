@@ -57,9 +57,9 @@ class App : Application(), DefaultLifecycleObserver {
     }
 
      fun startUscanService() {
-        Logger.d("Try Uscan service start from APP")
-        startForegroundService(Intent(this, UscanService().javaClass))
-        Logger.d("Uscan service start from APP")
+//        Logger.d("Try Uscan service start from APP")
+//        startForegroundService(Intent(this, UscanService().javaClass))
+//        Logger.d("Uscan service start from APP")
     }
 
     fun isAllNeededPermissionsGranted(): Boolean {
