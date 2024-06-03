@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "genda.uscan"
-        minSdk 26
+        minSdk 28
         targetSdk 34
         versionCode 1001
         versionName "1.001"
@@ -69,5 +69,6 @@ dependencies {
     implementation 'no.nordicsemi.android.support.v18:scanner:1.6.0'
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
 
-    implementation 'com.kkmcn.kbeaconlib:kbeaconlib:1.0.9'
+    implementation "com.datadoghq:dd-sdk-android:1.17.1"
+
 }

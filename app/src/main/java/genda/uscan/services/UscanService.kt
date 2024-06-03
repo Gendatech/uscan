@@ -11,6 +11,8 @@ import android.text.format.DateFormat
 import android.util.Log
 import androidx.lifecycle.LifecycleService
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -21,6 +23,7 @@ import genda.uscan.utils.Logger
 import genda.uscan.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import no.nordicsemi.android.support.v18.scanner.ScanResult
@@ -46,7 +49,14 @@ class UscanService: LifecycleService(){
 
     private val serviceStartTime: Long = System.currentTimeMillis()
 
-    val scanner = Scanner()
+    private val serviceScope = CoroutineScope(Dispatchers.IO)
+    private var logNumber = 0
+    private val logPath: DocumentReference =
+        Firebase.firestore.collection("devices").document(Build.MODEL).collection("sessions")
+            .document("${DateFormat.format("MMMM d, yyyy - HH:mm:ss", Date())}")
+
+
+//    val scanner = Scanner()
 
 
 
@@ -65,6 +75,7 @@ class UscanService: LifecycleService(){
      * The service is starting, due to a call to startService().
      */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
 
         Logger.d("Uscan service onStartCommand")
 
@@ -72,57 +83,39 @@ class UscanService: LifecycleService(){
             foregroundNotification = GendaNotification(this)
             foregroundNotification?.showServiceNotification(this)
 
-            startUpdateNotification()
-
-            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let { Logger.e("Fetching FCM registration token failed", it) }
-                    return@OnCompleteListener
+            serviceScope.launch {
+                while (true) {
+                    logEveryTwoMinutes()
                 }
+            }
 
-                // Get new FCM registration token
-                Logger.d("Firebase FCM token - ${task.result}")
-            })
+//            startUpdateNotification()
+
+//            FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//                if (!task.isSuccessful) {
+//                    task.exception?.let { Logger.e("Fetching FCM registration token failed", it) }
+//                    return@OnCompleteListener
+//                }
+//
+//                // Get new FCM registration token
+//                Logger.d("Firebase FCM token - ${task.result}")
+//            })
 
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
-
-            scanner.startScanning()
-
-            delay(20 * 1000)
-
-            scanner.stopScanning()
-
-            pushlishNextWakeupIntent()
-
-            scanner.lastResult?.let { updateFirestore(it) }
-        }
+//        CoroutineScope(Dispatchers.IO).launch {
+//
+//            scanner.startScanning()
+//
+//            delay(20 * 1000)
+//
+//            scanner.stopScanning()
+//
+//            scanner.lastResult?.let { updateFirestore(it) }
+//        }
 
         return START_STICKY
     }
-
-//    /**
-//     * A client is binding to the service with bindService().
-//     */
-//    override fun onBind(intent: Intent): IBinder? {
-//        return super.onBind(intent)
-//    }
-//
-//    /**
-//     * All clients have unbound with unbindService().
-//     */
-//    override fun onUnbind(intent: Intent?): Boolean {
-//        return super.onUnbind(intent)
-//    }
-//
-//    /**
-//     * A client is binding to the service with bindService(),
-//     * after onUnbind() has already been called.
-//     */
-//    override fun onRebind(intent: Intent?) {
-//        super.onRebind(intent)
-//    }
 
     /**
      * The service is no longer used and is being destroyed.
@@ -135,8 +128,10 @@ class UscanService: LifecycleService(){
         // Stop Updating notification.
         stopUpdateNotification()
 
+        serviceScope.cancel()
+
         // Restart Service.
-        restartService()
+//        restartService()
     }
 
     private fun restartService() {
@@ -151,6 +146,34 @@ class UscanService: LifecycleService(){
     // endregion
 
     // region Private Methods
+
+    private suspend fun logEveryTwoMinutes() {
+        Logger.d("UscanService Log message date: ${DateFormat.format("MMMM d, yyyy - HH:mm:ss", Date())} logNumber: $logNumber")
+
+        // Create the log entry
+        val logEntry = mapOf(
+            "time" to DateFormat.format("MMMM d, yyyy - HH:mm:ss", Date()),
+            "logNumber" to logNumber
+        )
+
+        // Update the logs field
+        logPath.update("logs", FieldValue.arrayUnion(logEntry))
+            .addOnSuccessListener {
+                // Log was successfully added
+                Logger.d("UscanService Log message added")
+            }
+            .addOnFailureListener { e ->
+                // Handle the error
+                Logger.e("UscanService Log message error", e)
+
+                val data = hashMapOf(
+                    "logs" to arrayListOf(logEntry)
+                )
+                logPath.set(data)
+            }
+        logNumber++
+        delay(120_000) // Delay for 2 minutes
+    }
 
     private fun startUpdateNotification() {
 
@@ -178,40 +201,6 @@ class UscanService: LifecycleService(){
 
         // Clear the notification handler.
         notificationHandler.removeCallbacksAndMessages(null);
-    }
-
-
-
-
-    private var alarmIntent: PendingIntent? = null
-
-    private fun pushlishNextWakeupIntent() {
-        Logger.e("pushlishNextWakeupIntent()")
-        val alarmMgr = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val nextTime = System.currentTimeMillis() + (10 * 1000)
-
-        alarmIntent = getWakeupIntent(this, "Watchdog Pending Intent").let { intent ->
-            PendingIntent.getService(
-                this,
-                0,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
-            )
-        }
-
-
-//        alarmMgr.setExactAndAllowWhileIdle(
-//            AlarmManager.RTC_WAKEUP,
-//            nextTime,
-//            alarmIntent
-//        )
-    }
-
-
-    fun getWakeupIntent(context: Context, wakeupReason: String): Intent {
-        val intent = Intent(context, UscanService::class.java)
-        intent.putExtra("WAK_UP_REASON", wakeupReason)
-        return intent
     }
 
     private fun updateFirestore(lastResult: ScanResult) {

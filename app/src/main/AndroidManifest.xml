@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!--Service permission-->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+    <!-- Request foreground service permission for android 14+ devices. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
 
     <!--Android 13+-->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -20,7 +22,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
 
     <uses-permission
         android:name="android.permission.BLUETOOTH_CONNECT" />
@@ -53,7 +54,9 @@
             android:value="true" />
 
         <!-- On Going Service-->
-        <service android:name=".services.UscanService"/>
+        <service android:name=".services.UscanService"
+            android:foregroundServiceType="connectedDevice"
+            />
 
         <service
             android:name=".services.FCMService"

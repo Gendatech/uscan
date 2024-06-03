@@ -6,10 +6,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.work.*
+import com.datadog.android.Datadog
+import com.datadog.android.core.configuration.Configuration
+import com.datadog.android.core.configuration.Credentials
+import com.datadog.android.privacy.TrackingConsent
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.functions.FirebaseFunctions
 import genda.uscan.services.UscanService
@@ -39,6 +44,11 @@ class App : Application(), DefaultLifecycleObserver {
         super<Application>.onCreate()
         instance = this
 
+        Log.d("uscan","App onCreate 0")
+        initDataDog()
+
+        Logger.d("App onCreate")
+
 //        startUscanService()
     }
 
@@ -56,10 +66,26 @@ class App : Application(), DefaultLifecycleObserver {
         super.onStop(owner)
     }
 
+    private fun initDataDog() {
+        val configuration = Configuration.Builder(
+            logsEnabled = true,
+            tracesEnabled = true,
+            crashReportsEnabled = true,
+            rumEnabled = false
+        ).build()
+        val credentials = Credentials(
+            "pub7e7d36f4c11eabefe6e7401bf4dbf36a",
+            "uscan",
+            BuildConfig.VERSION_NAME,
+            BuildConfig.APPLICATION_ID)
+
+        Datadog.initialize(this, credentials, configuration, TrackingConsent.GRANTED)
+    }
+
      fun startUscanService() {
-//        Logger.d("Try Uscan service start from APP")
-//        startForegroundService(Intent(this, UscanService().javaClass))
-//        Logger.d("Uscan service start from APP")
+        Logger.d("Try Uscan service start from APP")
+        startForegroundService(Intent(this, UscanService().javaClass))
+        Logger.d("Uscan service start from APP")
     }
 
     fun isAllNeededPermissionsGranted(): Boolean {
