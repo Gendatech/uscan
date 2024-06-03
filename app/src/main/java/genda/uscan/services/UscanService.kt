@@ -200,11 +200,11 @@ class UscanService: LifecycleService(){
         }
 
 
-        alarmMgr.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            nextTime,
-            alarmIntent
-        )
+//        alarmMgr.setExactAndAllowWhileIdle(
+//            AlarmManager.RTC_WAKEUP,
+//            nextTime,
+//            alarmIntent
+//        )
     }
 
 
