@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import genda.uscan.App
 import genda.uscan.scanner.Scanner
 import genda.uscan.scanner.UscanResult
 import genda.uscan.utils.GendaNotification
@@ -51,9 +52,10 @@ class UscanService: LifecycleService(){
 
     private val serviceScope = CoroutineScope(Dispatchers.IO)
     private var logNumber = 0
-    private val logPath: DocumentReference =
+    val logPath: DocumentReference =
         Firebase.firestore.collection("devices").document(Build.MODEL).collection("sessions")
-            .document("${DateFormat.format("MMMM d, yyyy - HH:mm:ss", Date())}")
+            .document(App.sessionDate)
+
 
 
 //    val scanner = Scanner()
@@ -156,23 +158,10 @@ class UscanService: LifecycleService(){
             "logNumber" to logNumber
         )
 
-        // Update the logs field
-        logPath.update("logs", FieldValue.arrayUnion(logEntry))
-            .addOnSuccessListener {
-                // Log was successfully added
-                Logger.d("UscanService Log message added")
-            }
-            .addOnFailureListener { e ->
-                // Handle the error
-                Logger.e("UscanService Log message error", e)
+        App.get().updateFirestore("logs", logEntry)
 
-                val data = hashMapOf(
-                    "logs" to arrayListOf(logEntry)
-                )
-                logPath.set(data)
-            }
         logNumber++
-        delay(120_000) // Delay for 2 minutes
+        delay(60_000) // Delay for 1 minutes
     }
 
     private fun startUpdateNotification() {

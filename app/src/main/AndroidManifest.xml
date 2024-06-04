@@ -59,6 +59,11 @@
             />
 
         <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:foregroundServiceType="connectedDevice"
+            tools:node="merge" />
+
+        <service
             android:name=".services.FCMService"
             android:exported="false">
             <intent-filter>

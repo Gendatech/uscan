@@ -65,10 +65,22 @@ class UscanFragment : Fragment() {
             Logger.d("Button clicked")
 
             // Start the Uscan service.
-            App.get().startUscanService()
+//            App.get().startUscanService()
+
+            App.get().createWorkManager()
 
 
 
+
+        }
+
+        _binding?.buttonTwo?.setOnClickListener {
+            it.alpha = 0.5f
+
+            Logger.d("Button clicked")
+
+            // Start the Uscan service.
+            App.get().cancelWorkManager(from = "buttonPressed")
         }
     }
 
