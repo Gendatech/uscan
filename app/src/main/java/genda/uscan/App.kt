@@ -98,33 +98,33 @@ class App : Application(), DefaultLifecycleObserver {
 
      fun startUscanService(from: String) {
 
-        Logger.d("Try Uscan service start from $from")
-        startForegroundService(Intent(this, UscanService().javaClass))
-
-         val logEntry = mapOf(
-             "time" to DateFormat.format("MMMM d, yyyy - HH:mm:ss", Date()),
-             "from" to from
-         )
-
-         val logPath: DocumentReference =
-                 Firebase.firestore.collection("devices").document(Build.MODEL).collection("sessions")
-                     .document(App.sessionDate)
-
-         logPath.update("serviceStart", FieldValue.arrayUnion(logEntry))
-             .addOnSuccessListener {
-                 // Log was successfully added
-                 Logger.d("App start Service log message added")
-             }
-             .addOnFailureListener { e ->
-
-                 // Handle the error
-                 Logger.e("App start Service log message failed", e)
-
-                 val data = hashMapOf(
-                     "serviceStart" to arrayListOf(logEntry)
-                 )
-                 logPath.set(data)
-             }
+//        Logger.d("Try Uscan service start from $from")
+//        startForegroundService(Intent(this, UscanService().javaClass))
+//
+//         val logEntry = mapOf(
+//             "time" to DateFormat.format("MMMM d, yyyy - HH:mm:ss", Date()),
+//             "from" to from
+//         )
+//
+//         val logPath: DocumentReference =
+//                 Firebase.firestore.collection("devices").document(Build.MODEL).collection("sessions")
+//                     .document(App.sessionDate)
+//
+//         logPath.update("serviceStart", FieldValue.arrayUnion(logEntry))
+//             .addOnSuccessListener {
+//                 // Log was successfully added
+//                 Logger.d("App start Service log message added")
+//             }
+//             .addOnFailureListener { e ->
+//
+//                 // Handle the error
+//                 Logger.e("App start Service log message failed", e)
+//
+//                 val data = hashMapOf(
+//                     "serviceStart" to arrayListOf(logEntry)
+//                 )
+//                 logPath.set(data)
+//             }
     }
 
     fun isAllNeededPermissionsGranted(): Boolean {
@@ -157,10 +157,29 @@ class App : Application(), DefaultLifecycleObserver {
         Logger.d("Create UscanWorker")
         sessionDate = "${DateFormat.format("MMMM d, yyyy - HH:mm:ss", Date())}"
 
-        val request = PeriodicWorkRequestBuilder<UscanWorker>(
-            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
-            TimeUnit.MILLISECONDS,
-        )
+//        val request = PeriodicWorkRequestBuilder<UscanWorker>(
+//            PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS,
+//            TimeUnit.MILLISECONDS,
+//        )
+//            .addTag("TRACKER_WORKER")
+//            .setConstraints(
+//                Constraints.Builder()
+//                    .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+//                    .setRequiresBatteryNotLow(false)
+//                    .setRequiresCharging(false)
+//                    .setRequiresDeviceIdle(false)
+//                    .setRequiresStorageNotLow(false)
+//                    .build()
+//            )
+//            .build()
+//
+//        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+//            "TRACKER_WORKER",
+//            ExistingPeriodicWorkPolicy.KEEP,
+//            request
+//        )
+
+        val request = OneTimeWorkRequestBuilder<UscanWorker>()
             .addTag("TRACKER_WORKER")
             .setConstraints(
                 Constraints.Builder()
@@ -173,9 +192,9 @@ class App : Application(), DefaultLifecycleObserver {
             )
             .build()
 
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+        WorkManager.getInstance(this).enqueueUniqueWork(
             "TRACKER_WORKER",
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingWorkPolicy.KEEP,
             request
         )
     }

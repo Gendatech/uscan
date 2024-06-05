@@ -61,11 +61,14 @@ class Scanner {
 
         try {
             Logger.e("Starting scan $count")
-            scanner.startScan(
-                listOf(filters),
-                settingsBuilder.build(),
-                callback!!
-            )
+//            scanner.startScan(
+//                listOf(filters),
+//                settingsBuilder.build(),
+//                callback!!
+//            )
+
+            scanner.startScan(callback!!)
+
             isScanStarted = true
         } catch (e: Exception) {
             Logger.e("Unable to start scan. see crash" + e.message)

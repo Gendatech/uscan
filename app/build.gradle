@@ -5,11 +5,13 @@ plugins {
 
 android {
     compileSdk 34
+//    compileSdkPreview "VanillaIceCream"
 
     defaultConfig {
         applicationId "genda.uscan"
         minSdk 28
         targetSdk 34
+//        targetSdkPreview "VanillaIceCream"
         versionCode 1001
         versionName "1.001"
 
