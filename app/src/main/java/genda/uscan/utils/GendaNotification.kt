@@ -3,8 +3,10 @@ package genda.uscan.utils
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.work.ForegroundInfo
 import genda.uscan.ui.MainActivity
 import genda.uscan.R
 
@@ -63,9 +65,25 @@ class GendaNotification(
         return this
     }
 
+    fun setTitle(notificationTitle: String?): GendaNotification {
+
+        if (notificationTitle != null) {
+
+            notificationBuilder.setContentTitle(notificationTitle)
+        } else {
+            Logger.d("Notification title is null")
+        }
+        return this
+    }
+
+
     fun setMessage(notificationMessage: Int) : GendaNotification {
         notificationBuilder.setContentText(context.getString(notificationMessage))
         return this
+    }
+
+    fun getForegroundInfo(): ForegroundInfo {
+        return ForegroundInfo(notificationId, notification!!, ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE)
     }
 
     // endregion

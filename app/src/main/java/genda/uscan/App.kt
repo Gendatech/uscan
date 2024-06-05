@@ -175,7 +175,7 @@ class App : Application(), DefaultLifecycleObserver {
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             "TRACKER_WORKER",
-            ExistingPeriodicWorkPolicy.CANCEL_AND_REENQUEUE,
+            ExistingPeriodicWorkPolicy.KEEP,
             request
         )
     }
