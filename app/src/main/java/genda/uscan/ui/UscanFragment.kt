@@ -69,6 +69,8 @@ class UscanFragment : Fragment() {
 
             App.get().createWorkManager()
 
+            App.get().checkWorkStatus(this)
+
 
 
 
